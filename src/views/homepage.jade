@@ -1,0 +1,31 @@
+div.page-header
+  h1
+   | "Done!"
+   small  Be An Executioner
+
+blockquote
+  p
+    | It's so funny when I hear people being so protective of ideas.
+  p
+    | To me, ideas are worth nothing unless executed. They are just a multiplier. Execution is worth millions.
+  p Explanation:
+  div.row
+    form.col-sm-6
+      div.radio(ng-repeat="idea in ideas")
+        label
+          input(type="radio", ng-model="$parent.selectedIdea", ng-value="idea")
+          | {{ idea.name }} = {{ idea.value }}
+    form.col-sm-6
+      div.radio(ng-repeat="execution in executions")
+        label
+          input(type="radio", ng-model="$parent.selectedExecution", ng-value="execution")
+          | {{ execution.name }} = {{ execution.value | currency:"$" }}
+  p
+    | To make a business, you need to multiply the two.
+  p
+    | The {{ selectedIdea.name | lowercase }}, with {{ selectedExecution.name | lowercase }}, is worth {{ selectedIdea.value * selectedExecution.value | currency:"$" }}
+  p
+    | That's why I don't want to hear people's ideas. I'm not interested until I see their execution.
+  cite
+    | - From
+    a(href='https://gettingreal.37signals.com/ch06_Done.php')  Getting Real
