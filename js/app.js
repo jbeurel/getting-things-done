@@ -1,20 +1,15 @@
 'use strict';
 var app;
 
-app = angular.module('angularGithubPages', ['ng', 'ngResource', 'ui.router', 'ui.bootstrap', 'app.templates', 'Parse']);
+app = angular.module('gettingThingsDone', ['ng', 'ngResource', 'ui.router', 'ui.bootstrap', 'app.templates', 'Parse']);
 
-app.config(function($stateProvider, $urlRouterProvider, ParseProvider) {
+app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider.state('homepage', {
     url: '/:locale',
     controller: 'HomepageCtrl',
     templateUrl: 'homepage.html'
-  }).state('task', {
-    url: '/:locale/task',
-    controller: 'TaskCtrl',
-    templateUrl: 'task.html'
   });
-  $urlRouterProvider.otherwise('/fr');
-  return ParseProvider.initialize("vddnO2njYyRbe3wv8JTHQ4H9AqPdy2aGTvQA78z5", "yiVsEe22Tjm3iJYG2DYX08pUA3Z1Jf7t36NMVZ9p");
+  return $urlRouterProvider.otherwise('/fr');
 });
 
 app.run(function($rootScope, $state) {
@@ -66,37 +61,6 @@ app.controller('HomepageCtrl', function($scope) {
     }
   ];
   return $scope.selectedExecution = $scope.executions[3];
-});
-
-app.controller('TaskCtrl', function($scope, Task) {
-  Task.query().then(function(tasks) {
-    return $scope.tasks = tasks;
-  });
-  $scope.newTask = new Task;
-  $scope.addTask = function() {
-    return $scope.newTask.save().then(function(task) {
-      $scope.tasks.push(task);
-      return $scope.newTask = new Task;
-    });
-  };
-  $scope.removeTask = function(task) {
-    return task.destroy().then(function() {
-      return _.remove($scope.tasks, function(task) {
-        return task.objectId === null;
-      });
-    });
-  };
-  $scope.editingTask = function(task) {
-    return task.editing = true;
-  };
-  $scope.editTask = function(task) {
-    task.save();
-    return task.editing = false;
-  };
-  return $scope.cancelEditing = function(task) {
-    task.title = task._cache.title;
-    return task.editing = false;
-  };
 });
 
 var __hasProp = {}.hasOwnProperty,
